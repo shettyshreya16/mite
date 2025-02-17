@@ -1,0 +1,52 @@
+#include <stdio.h>
+
+void calculateElectricityBill() {
+    // Input: Customer Details
+    char customerName[50];
+    char customerID[20];
+    int totalUnits;
+
+    printf("Enter Customer Name: ");
+    scanf("%49s", customerName);
+    printf("Enter Customer ID: ");
+    scanf("%19s", customerID);
+    printf("Enter Total Units Consumed: ");
+    scanf("%d", &totalUnits);
+
+    // Fixed charge
+    int fixedCharge = 100;
+
+    // Calculate Base Bill
+    float baseBill = 0;
+    if (totalUnits <= 100) {
+        baseBill = totalUnits * 5;
+    } else if (totalUnits <= 300) {
+        baseBill = (100 * 5) + ((totalUnits - 100) * 7);
+    } else {
+        baseBill = (100 * 5) + (200 * 7) + ((totalUnits - 300) * 10);
+    }
+
+    baseBill += fixedCharge;
+
+    // Calculate Surcharge
+    float surcharge = 0;
+    if (baseBill > 1000) {
+        surcharge = baseBill * 0.05;
+    }
+
+    // Calculate Total Bill
+    float totalBill = baseBill + surcharge;
+
+    // Output: Display Bill Details
+    printf("\nCustomer Name: %s\n", customerName);
+    printf("Customer ID: %s\n", customerID);
+    printf("Units Consumed: %d\n", totalUnits);
+    printf("Base Bill: ₹%.2f\n", baseBill);
+    printf("Surcharge: ₹%.2f\n", surcharge);
+    printf("Total Bill: ₹%.2f\n", totalBill);
+}
+
+int main() {
+    calculateElectricityBill();
+    return 0;
+}
