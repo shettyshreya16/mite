@@ -76,3 +76,59 @@ int main() {
 
     return 0;
 }
+
+`2. Manufacturing Quality Control`  
+`Scenario:`  
+A manufacturing unit inspects `product weights` 
+before packaging. A product is `accepted` 
+if its weight is `within the range of 950g to 1050g`.  
+Write a program to process `N` product weights and display:  
+- `Accepted Products Count`  
+- `Rejected Products Count`  
+
+`Input Example:`  
+```
+Enter number of products: 5
+Enter weights (in grams): 970 890 1055 1000 1020
+```
+
+`Output Example:`  
+```
+Accepted Products: 3
+Rejected Products: 2
+```
+SOLUTION
+    #include <stdio.h>
+
+int main() {
+    int N, count = 0, i;
+    int weights[100]; //  Declare weights array with a reasonable size (e.g., 100)
+    printf("Enter number of products: ");
+    scanf("%d", &N);
+
+    int acceptedcount = 0;
+    int rejectedcount = 0;
+
+    if (N <= 0) {
+        printf("Invalid input for the number of products.\n");
+        return 1; // Indicate an error
+    }
+
+    for (i = 0; i < N; i++) { // corrected the starting value of i
+        printf("Enter weights (in grams): ");
+        scanf("%d", &weights[i]);
+    }
+
+    for (i = 0; i < N; i++) {  // corrected the starting value of i
+        if (weights[i] >= 950 && weights[i] <= 1050) {
+            acceptedcount++;
+        } else {
+            rejectedcount++;
+        }
+    }
+
+    printf("Accepted product: %d\n", acceptedcount);
+    printf("rejected product: %d\n", rejectedcount);
+
+    return 0;
+}
