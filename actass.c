@@ -132,3 +132,53 @@ int main() {
 
     return 0;
 }
+
+
+`3. Toll Booth Collection System`  
+`Scenario:`  
+A highway toll booth records `vehicles` passing through and their payments:  
+- `Car`: ₹50  
+- `Truck`: ₹100  
+- `Bike`: ₹20  
+
+Write a program that `tracks the total revenue` collected for `N` vehicles.
+
+`Input Example:`  
+```
+Enter number of vehicles: 4
+Enter vehicle types: Car Truck Bike Car
+```
+
+`Output Example:`  
+```
+Total Toll Collection: ₹220
+```
+
+
+SOLUTION
+#include <stdio.h>
+#include<string.h>
+int main()
+{
+    int n;
+    char vehicletype[10];
+    printf("Enter the number of vehicles:");
+    scanf("%d",&n);
+    
+   float collection=0;
+   for (int i=0;i<n;i++)
+   {
+       printf("enter the vehicle type:");
+       scanf("%s",&vehicletype);
+       if(strcmp(vehicletype,"car")==0){
+           collection+=50;
+       }else if(strcmp(vehicletype,"truck")==0){
+           collection+=100;
+       }else if(strcmp(vehicletype,"bike")==0){
+           collection+=20;
+       }
+    }
+    printf("total toll calculation: %.2f\n",collection);
+    return 0;
+}
+       
