@@ -126,43 +126,40 @@ Bob - 90
 ```
 
   SOLUTION
-  #include <stdio.h>
-#include <stdlib.h>
-typedef struct {
-    char *name;
+ #include<stdio.h>
+struct student{
+    char name[255];
     int marks;
-} Student;
-int main() {
+};
+
+typedef struct student student_t;
+
+void readstudents(student_t* student ,int n){
+    for(int i=0;i<n;i++)
+    {
+        printf("student %d name:",i+1);
+        scanf("%s",student[i].name);
+        printf("student marks:");
+        scanf("%d",&student[i].marks);
+    }
+}
+
+void printstudents(student_t* student ,int n){
+    printf("Students record:\n");
+    for(int i=0;i<n;i++)
+    {
+        printf("%s-%d\n",student[i].name,student[i].marks);
+    }
+}
+int main()
+{
+    student_t students[1000];
     int n;
-    printf("Enter number of students: ");
-    scanf("%d", &n);
-    // Dynamically allocate memory for an array of Student structures
-    Student *students = (Student *)malloc(n * sizeof(Student));
-    if (students == NULL) {
-        printf("Memory allocation failed!\n");
-        return 1; // Exit in case of failure
-    }
-    for (int i = 0; i < n; i++) {
-        // Allocate memory for the student's name
-        students[i].name = (char *)malloc(100 * sizeof(char)); // Assuming max name length is 99
-        if (students[i].name == NULL) {
-            printf("Memory allocation for name failed!\n");
-            return 1; // Exit in case of failure
-        }
-        printf("Enter Student %d Name: ", i + 1);
-        scanf("%s", students[i].name); // Read the student name
-        printf("Enter Marks: ");
-        scanf("%d", &students[i].marks); // Read the student's marks
-    }
-    // Print all student details
-    printf("\nStudent Records:\n");
-    for (int i = 0; i < n; i++) {
-        printf("%s - %d\n", students[i].name, students[i].marks);
-    }
-    // Free allocated memory
-    for (int i = 0; i < n; i++) {
-        free(students[i].name); // Free each student's name
-    }
-    free(students); // Free the array of students
-    return 0;
+    printf("Enter the number of students:");
+    scanf("%d",&n);
+    
+    readstudents(students,n);
+    printstudents(students,n);
+    
+    return 0 ;
 }
