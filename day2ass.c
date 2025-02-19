@@ -13,26 +13,36 @@ Enter a number: 5
 Factorial of 5 is 120
 ```
 SOLUTION
-  #include <stdio.h>
-long long factorial(int n) {
-    if (n == 0 || n == 1) {
-        return 1; 
+ #include <stdio.h>
+
+int factorial(int n) 
+{
+    if (n < 0)
+     {
+        return -1; 
+    } 
+    else if (n == 0) 
+    { 
+        return 1;
     } else {
-        return (long long)n * factorial(n - 1); 
+        return n * factorial(n - 1); 
     }
 }
 
 int main() {
-    int number;
-    printf("Enter a number: ");
-    scanf("%d", &number);
+    int n, result; 
+    printf("enter the number to: ");
+    scanf("%d", &n);
 
-    long long result = factorial(number); 
-    printf("Factorial of %d is %lld\n", number, result);
-
+    result = factorial(n); 
+    if (result == -1) 
+    { 
+        printf("Factorial is not defined for negative numbers.\n");
+    } else {
+        printf("factorial of %d: %d\n", n, result);
+    }
     return 0;
 }
-
 `6. E-commerce Discount Calculation`  
 `Scenario:`  
 An e-commerce website provides `discounts`:  
