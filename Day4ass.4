@@ -1,0 +1,232 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 100
+
+
+struct Medicine {
+    int id;
+    char name[50];
+    char expiry_date[11];  // Format: YYYY-MM-DD
+    float price;
+};
+
+
+void swap(struct Medicine *a, struct Medicine *b) {
+    struct Medicine temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+
+void sortMedicines(struct Medicine meds[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (strcmp(meds[j].expiry_date, meds[j + 1].expiry_date) > 0) {
+                swap(&meds[j], &meds[j + 1]);
+            }
+        }
+    }
+}
+
+
+void saveToFile(struct Medicine meds[], int n) {
+    FILE *file = fopen("medicine_inventory.txt", "w");
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    fprintf(file, "Sorted Medicines (by Expiry Date):\n");
+    for (int i = 0; i < n; i++) {
+        fprintf(file, "%d. %s - %s - ₹%.2f\n", i + 1, meds[i].name, meds[i].expiry_date, meds[i].price);
+    }
+
+    fclose(file);
+    printf("Records saved in \"medicine_inventory.txt\"\n");
+}
+
+int main() {
+    struct Medicine meds[MAX];
+    int n;
+
+    
+    printf("Enter number of medicines: ");
+    scanf("%d", &n);
+
+    
+    for (int i = 0; i < n; i++) {
+        printf("Medicine %d (ID, Name, Expiry Date YYYY-MM-DD, Price): ", i + 1);
+        scanf("%d", &meds[i].id);
+        getchar(); // Clear newline character
+        fgets(meds[i].name, 50, stdin);
+        meds[i].name[strcspn(meds[i].name, "\n")] = 0; // Remove newline
+        scanf("%s %f", meds[i].expiry_date, &meds[i].price);
+    }
+
+    
+    sortMedicines(meds, n);
+
+    // Output: Sorted medicines
+    printf("\nSorted Medicines (by Expiry Date):\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d. %s - %s\n", i + 1, meds[i].name, meds[i].expiry_date);
+    }
+
+    // Save to file
+    saveToFile(meds, n);
+
+    return 0;
+}
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 100
+
+union Rent {
+    float daily_rent;
+    float total_rent;
+};
+
+struct Car {
+    int id;
+    char model[50];
+    union Rent rent;
+    int isTotal; 
+};
+
+void saveToFile(struct Car cars[], int n) {
+    FILE *file = fopen("car_rentals.txt", "w");
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+    fprintf(file, "Cars Available:\n");
+    for (int i = 0; i < n; i++) {
+        fprintf(file, "%d. %s - ₹%.2f/day\n", i + 1, cars[i].model, cars[i].rent.daily_rent);
+    }
+    fclose(file);
+    printf("Data saved in \"car_rentals.txt\"\n");
+}
+
+void updateRent(struct Car cars[], int n) {
+    int id, days;
+    printf("Enter Car ID to update total rent: ");
+    scanf("%d", &id);
+    for (int i = 0; i < n; i++) {
+        if (cars[i].id == id) {
+            printf("Enter number of rental days: ");
+            scanf("%d", &days);
+            cars[i].rent.total_rent = cars[i].rent.daily_rent * days;
+            cars[i].isTotal = 1;
+            printf("Updated total rent for %s: ₹%.2f\n", cars[i].model, cars[i].rent.total_rent);
+            return;
+        }
+    }
+    printf("Car ID not found!\n");
+}
+
+int main() {
+    struct Car cars[MAX];
+    int n;
+    
+    printf("Enter number of cars: ");
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        printf("Car %d (ID, Model, Rent/Day): ", i + 1);
+        scanf("%d", &cars[i].id);
+        getchar();
+        fgets(cars[i].model, 50, stdin);
+        cars[i].model[strcspn(cars[i].model, "\n")] = 0;
+        scanf("%f", &cars[i].rent.daily_rent);
+        cars[i].isTotal = 0;
+    }
+
+    printf("\nCars Available:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d. %s - ₹%.2f/day\n", i + 1, cars[i].model, cars[i].rent.daily_rent);
+    }
+
+    saveToFile(cars, n);
+
+    char choice;
+    printf("Do you want to update rental information? (y/n): ");
+    scanf(" %c", &choice);
+    if (choice == 'y' || choice == 'Y') {
+        updateRent(cars, n);
+    }
+
+    return 0;
+}
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 100
+
+struct Employee {
+    int id;
+    char name[50];
+    float basic_salary;
+    float allowances;
+    float gross_salary;
+};
+
+void saveToFile(struct Employee emp[], int n) {
+    FILE *file = fopen("payroll.txt", "w");
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+    fprintf(file, "Employee Payroll Data:\n");
+    for (int i = 0; i < n; i++) {
+        fprintf(file, "%d. %s - Gross Salary: ₹%.2f\n", emp[i].id, emp[i].name, emp[i].gross_salary);
+    }
+    fclose(file);
+    printf("Record saved in \"payroll.txt\"\n");
+}
+
+void searchEmployee(struct Employee emp[], int n) {
+    int id;
+    printf("Enter Employee ID to search: ");
+    scanf("%d", &id);
+    for (int i = 0; i < n; i++) {
+        if (emp[i].id == id) {
+            printf("\nEmployee: %s\nGross Salary: ₹%.2f\n", emp[i].name, emp[i].gross_salary);
+            return;
+        }
+    }
+    printf("Employee ID not found!\n");
+}
+
+int main() {
+    struct Employee emp[MAX];
+    int n;
+
+    printf("Enter number of employees: ");
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        printf("Employee %d (ID, Name, Basic Salary, Allowances): ", i + 1);
+        scanf("%d", &emp[i].id);
+        getchar();
+        fgets(emp[i].name, 50, stdin);
+        emp[i].name[strcspn(emp[i].name, "\n")] = 0;
+        scanf("%f %f", &emp[i].basic_salary, &emp[i].allowances);
+        emp[i].gross_salary = emp[i].basic_salary + emp[i].allowances;
+    }
+
+    saveToFile(emp, n);
+    searchEmployee(emp, n);
+
+    return 0;
+}
