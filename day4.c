@@ -85,3 +85,104 @@ employee findhighestsalary(employee emp[], int n) {
     }
     return highestsalaried;
 }
+
+
+
+
+
+
+
+
+#include<stdio.h>
+#include<stdlib.h>
+struct Fiction_t {
+    char title[250];
+    char author[125];
+    float price;
+}; 
+typedef struct Fiction_t Fiction;
+
+struct Nonficton_t {
+    char title[250];
+    char subject[500];
+    float price;
+};
+typedef struct Nonficton_t Nonfiction;
+
+union Booktype_t{
+    Fiction fiction;
+    Nonfiction nonfiction;
+};
+typedef union Booktype_t Booktype;
+
+struct Book_t {
+     int type;
+     Booktype booktype;
+};
+typedef struct Book_t Book;
+
+Book books[1000];
+int bookcount;
+
+void addbooks();
+void displaybooks();
+
+int main(){
+    addbooks();
+    displaybooks();
+    return 0;
+}
+
+void addbooks()
+{
+    printf("enter the number of books:");
+    scanf("%d",&bookcount);
+    
+    for(int i=0;i<bookcount;i++)
+    {
+        printf("Type of book(1.Fiction,2.Nonfiction):");
+        scanf("%d",&books[i].type);
+        
+        switch(books[i].type)
+        {
+            case 1:
+            {
+                printf("Enter fiction book details (title, author ,price )");
+                scanf("%s%s%f",books[i].booktype.fiction.title,
+                books[i].booktype.fiction.title,
+                books[i].booktype.fiction.author,
+                &books[i].booktype.fiction.price);
+            }break;
+         case 2:
+            {
+                printf("Enter fiction book details (title, author ,price )");
+                scanf("%s%s%f",book[i].booktype.nonfiction.title,
+                books[i].booktype.nonfiction.title,
+                books[i].booktype.nonfiction.author,
+                &books[i].booktype.nonfiction.price);
+                
+            }break;
+            
+        }
+    }
+    
+}
+void displaybooks()
+{
+   for ( int i=0;i<bookcount;i++) {
+       switch(books[i].type){
+           case 1:
+            {
+                printf("Fiction books:%s,subject:%s,price:$%.2f",books[i].booktype.fiction.title, 
+                books[i].booktype.fiction.author,
+                books[i].booktype.fiction.price);
+            }break;
+            case 2:
+            {
+                printf("Nonfiction books:%s,subject:%s,price:$%.2f"book[i].booktype.nonfiction.title,
+                books[i].booktype.nonfiction.author,
+                books[i].booktype.nonfiction.price);
+            }break;
+       }
+   } 
+}
